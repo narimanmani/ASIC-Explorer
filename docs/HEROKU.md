@@ -6,7 +6,7 @@ Dashboard: https://dashboard.heroku.com/apps/asic-explorer-narimanmani
 
 Live demo: https://asic-explorer-narimanmani-a1aa7fa79bdd.herokuapp.com/#intent
 
-Deployed and verified on **October 12, 2026**, in the maintainer's personal account. Release **v3** succeeded with application commit `3941aa7eb2bab968c9a09b896504a0697ae53baa`; one **Basic** web dyno is running, with no database or add-ons. The account owner approved this formation at up to **US$7/month**. Subsequent documentation commits on GitHub do not change this recorded runtime revision.
+Deployed and verified on **October 12, 2026**, in the maintainer's personal account. The current application release is **v7**, commit `e6d297332021b542f4b1d0622871f0cdae9c5b95`. One **Basic** web dyno runs the teaching app, and one **Essential-0 PostgreSQL** database persists private visitor history. The account owner separately approved the database, bringing the combined cost to up to **US$12/month**. Subsequent documentation commits on GitHub do not change this recorded runtime revision.
 
 ![Live introductory counter holding two with Enable off](heroku-live-preview.jpg)
 
@@ -16,12 +16,13 @@ Deployed and verified on **October 12, 2026**, in the maintainer's personal acco
 - Runtime: Node 22.x, matching the tested LTS line.
 - Build: `heroku-postbuild` prepares local Monaco assets and runs the production Next.js build. Dependencies come from the committed npm lockfile.
 - Process: `web: npm start`. The launcher uses `PORT` and binds to `0.0.0.0` when `DYNO` is present. Local startup uses loopback and port 4175 by default.
-- Formation: one web dyno, without a database, add-on, background worker, or external synthesis service.
+- Formation: one Basic web dyno and one Essential-0 PostgreSQL database for visitor history; no other add-ons, background dynos, or external synthesis service.
+- Private history: `/history`, with password access, anonymous visitor identifiers, local approximate IP geolocation, 30-day sampled records, and an explicit public privacy notice. See [HISTORY.md](HISTORY.md).
 - Shared synthesis: one active compilation, at most six starts per minute per process, and a 20-second worker deadline. Request bodies are capped at 24,000 bytes with a five-second read deadline; output is capped at approximately five million characters. These controls are defined in the source rather than secret configuration.
 
 Buildpack source: https://github.com/narimanmani/ASIC-Explorer/tree/codex/heroku-nodejs-buildpack, pinned to commit `30450ab9a07e6b2f45b66baf3d9a4cc60921adc1`. It snapshots Heroku's official buildpack at `baf13a3c963062b874ee1e75c5d50cb8b14806be` and changes only the Node runtime download to resume interrupted transfers, with up to six 90-second attempts. Initial deployments stalled on the runtime archive, and extending a single-attempt timeout did not resolve the issue. Official runtime selection, download source, SHA-256 validation, and TLS checks are retained. Buildpack download deadlines are separate from the application's synthesis and HTTP deadlines.
 
-One Basic dyno costs up to **US$7 per month**, prorated by usage, according to [Heroku pricing](https://devcenter.heroku.com/articles/usage-and-billing). An Eco plan has a separate shared-hours subscription and sleep behavior. Choosing a paid formation creates recurring usage charges; do not activate it without the account owner's authorization. Scaling the web process to zero stops its dyno usage and makes the app unavailable.
+The approved Basic dyno costs up to **US$7/month**, and the approved [Essential-0 database](https://elements.heroku.com/addons/heroku-postgresql) adds up to **US$5/month**, for approximately **US$12/month** combined, prorated by usage. Scaling the web process to zero stops web-dyno usage and makes the app unavailable; the database continues to incur charges until separately removed. Database removal would delete its history and must be explicitly authorized.
 
 ## Deploy and verify
 
@@ -39,7 +40,7 @@ When Git selects another saved credential helper instead of the authenticated He
 git -c credential.helper= -c 'credential.helper=!heroku git:credentials' push heroku main
 ```
 
-The public Node server retains the functional synthesis engine and the locally served editor. No API key or database is needed. Heroku's filesystem is ephemeral; the app does not use it to store student code, simulation progress, or accounts. Source and state remain in the current browser session, without server-side persistence.
+The public Node server retains the functional synthesis engine and the locally served editor. Teaching and synthesis need no external API key. Heroku's ephemeral filesystem holds prepared assets, including the licensed geolocation database, and does not store student code or simulation progress. Source and simulation state remain in the browser; sampled visitor history persists separately in PostgreSQL behind owner authentication.
 
 Check the hosted API with PowerShell:
 

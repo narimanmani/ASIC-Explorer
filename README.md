@@ -234,19 +234,19 @@ This is a teaching artifact. Its implementation and tests establish the behavior
 
 ## Heroku deployment
 
-The [live demo](https://asic-explorer-narimanmani-a1aa7fa79bdd.herokuapp.com/#intent) runs on one Basic web dyno, without a database or add-ons. The hosted introduction, Enable/Reset controls, edited-source synthesis, word/gate views, and API checks were verified on October 12, 2026. The shared demo permits one compilation at a time and six starts per minute; local installation is available for independent classroom use.
+The [live demo](https://asic-explorer-narimanmani-a1aa7fa79bdd.herokuapp.com/#intent) runs on one Basic web dyno, with one Essential-0 PostgreSQL database for private visitor history. The hosted introduction, Enable/Reset controls, edited-source synthesis, word/gate views, and API checks were verified on October 12, 2026. The shared demo permits one compilation at a time and six starts per minute; local installation is available for independent classroom use.
 
 This hosted experiment changes the counter to add 2, synthesizes it, then steps twice to produce **4 / 0100**. The circuit and waveform follow the edited rule.
 
 ![Hosted ASIC Explorer with edited increment-by-two RTL, synthesized circuit, and waveform reaching four after two clock edges](docs/heroku-synthesis-preview.jpg)
 
-The app includes a `Procfile`, a Node 22 runtime declaration, and a Heroku build hook. Heroku startup uses the assigned `PORT` on `0.0.0.0`; local `npm start` remains at `127.0.0.1:4175`. The build prepares the local editor assets before compiling Next.js. No database or external synthesis service is required.
+The app includes a `Procfile`, a Node 22 runtime declaration, and a Heroku build hook. Heroku startup uses the assigned `PORT` on `0.0.0.0`; local `npm start` remains at `127.0.0.1:4175`. The build prepares local editor and licensed geolocation assets before compiling Next.js. The teaching lab and synthesis can run without a database; the optional history feature uses PostgreSQL on Heroku.
 
 See [docs/HEROKU.md](docs/HEROKU.md) for the deployment configuration, shared-demo limits, verification commands, and operating cost. The synthesis API checks accept an `ASIC_EXPLORER_URL` environment variable for checking a hosted instance.
 
 ## Private visitor history
 
-The optional **`/history`** owner page records sampled lesson visits and approximate city/region/country behind a password sign-in. It includes time/lesson filters, anonymous visitor counts, and pagination. Raw IPs, GPS, and entered HDL are not stored. A public privacy notice explains the collection, and Global Privacy Control/Do Not Track requests are excluded.
+The optional **[`/history` owner page](https://asic-explorer-narimanmani-a1aa7fa79bdd.herokuapp.com/history)** is enabled on the hosted demo. It records sampled lesson visits and approximate city/region/country behind a password sign-in, with time/lesson filters, anonymous visitor counts, and pagination. Raw IPs, GPS, and entered HDL are not stored. A public privacy notice explains the collection, and Global Privacy Control/Do Not Track requests are excluded.
 
 History is **disabled by default** and needs private credentials and persistent PostgreSQL on Heroku. Local SQLite is available for development; production does not fall back to temporary disk. See [docs/HISTORY.md](docs/HISTORY.md) for setup, security boundaries, 30-day retention, geolocation attribution, and the separately approved database cost.
 

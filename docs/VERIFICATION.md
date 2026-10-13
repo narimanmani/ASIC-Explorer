@@ -103,6 +103,15 @@ The Design intent page previously displayed four static zeros and asked a questi
 - Added MIT dependency notices for pg/maxmind and their new installed dependencies, plus CC BY 4.0 attribution for DB-IP. The dependency inventory now covers 148 locked entries. The production audit still reports two moderate entries in the existing editor dependency chain, with no high/critical entries.
 - Private test credentials were generated outside the repository and their Windows directory ACL was restricted to the owner and SYSTEM. No database add-on or live collection is claimed by these local checks; production activation needs separate account-owner approval and deployed verification.
 
+## Live private history — October 12, 2026
+
+- The account owner approved Essential-0 PostgreSQL at up to US$5/month in addition to the existing US$7 Basic dyno. Exactly one database add-on is provisioned. The persistent schema initialized successfully over the provider's encrypted connection.
+- Heroku releases v6 and v7 succeeded; the final runtime source is `e6d297332021b542f4b1d0622871f0cdae9c5b95`. The final GitHub CI run passed, including all 17 tests and the production build. DB-IP checksum verification and the production build also passed in Heroku's build.
+- The full history HTTP check passed against the live HTTPS app: unauthorized/forged/expired/wrong-purpose reads, exact-origin checks, correct sign-in, Secure/HttpOnly/SameSite cookie flags, new capture, sampling, GPC/DNT opt-out, filters, and logout. Existing edited-synthesis, diagnostics, and asset API checks also passed against the deployment.
+- Browser owner sign-in displayed the privately stored real test visit and its approximate city/region/country. Opening Design intent and Timing created separate lesson observations with the same anonymous browser identifier. The introductory counter still produced 2 after two enabled steps. No real visitor record or live screenshot was published in the repository.
+- A private record-ID baseline was saved, the Heroku web dyno was explicitly restarted, and the private read confirmed that all baseline IDs remained in PostgreSQL. The later application release also retained those records. This establishes restart persistence for the checked records, not backup recovery or a service-availability guarantee.
+- Recent inspected logs showed Ready/Up and no R14/R15/H10/H12 or capture/database-unavailable messages. Current collection begins with this deployment; earlier visitor history cannot be reconstructed.
+
 ## Interpretation
 
 These checks establish the implemented examples and controls, not educational effectiveness, exhaustive SystemVerilog support, foundry timing, or chip signoff. The physical models do not run placement, CTS, routing, extraction, DRC, or LVS tools. The app labels these illustrations explicitly. No fabrication-ready layout is generated.

@@ -2,6 +2,8 @@
 
 The owner page is **`/history`**. It shows sampled visit times, anonymous visitor IDs, lesson names, broad browser labels, and approximate city/region/country. Period and lesson filters and 100-row pagination help review recent activity. Sign out ends the current browser session. There is no public history feed.
 
+**Live:** [Open private history](https://asic-explorer-narimanmani-a1aa7fa79bdd.herokuapp.com/history). Activated with account-owner approval on October 12, 2026, using one Essential-0 PostgreSQL database. Live private-access, visitor capture/location, privacy opt-out, and persistence checks passed. The README's preview is local test data; live visitor records and screenshots are kept private.
+
 ## Privacy and interpretation
 
 - Location is an **IP estimate**, not GPS or proof of physical location. VPNs, shared networks, proxies, and bots can change it. Unknown locations remain unknown.
@@ -53,6 +55,6 @@ Heroku deployment prepares the licensed MMDB before building Next.js. PostgreSQL
 
 ## Hosting cost and activation
 
-The existing Basic web dyno costs up to US$7/month. Permanent history additionally needs an **Essential-0 PostgreSQL database**, [currently US$5/month](https://elements.heroku.com/addons/heroku-postgresql), for a combined maximum of approximately **US$12/month**, prorated by use. The earlier Basic-dyno approval excluded add-ons; a separate approval is required before provisioning this database.
+The Basic web dyno costs up to US$7/month. Permanent history uses an **Essential-0 PostgreSQL database**, [currently US$5/month](https://elements.heroku.com/addons/heroku-postgresql), for a combined maximum of approximately **US$12/month**, prorated by use. The account owner explicitly approved this additional database on October 12, 2026. There are no other add-ons.
 
-Implementation and local checks do not mean collection is live. After approval, provision the app's own database, set private server configuration, deploy, and verify unauthenticated access, a real new visit, location lookup, sign-in, filters, sign-out, and persistence across a server restart. Do not reuse another project's database or expose database credentials. Earlier visitors cannot be recovered.
+For a separate installation, local checks do not mean collection is live. Obtain its owner's database-cost approval, provision the app's own database, set private server configuration, deploy, and verify unauthenticated access, a real new visit, location lookup, sign-in, filters, sign-out, and persistence across a server restart. Do not reuse another project's database or expose database credentials. Earlier visitors cannot be recovered.
