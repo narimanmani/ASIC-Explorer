@@ -1,0 +1,10 @@
+node_modules/
+.next/
+out/
+public/monaco/
+test-results/
+playwright-report/
+*.tsbuildinfo
+tmp/
+.env*
+!.env.example

@@ -1,0 +1,39 @@
+% Original tutorial figure; edit main.tex and regenerate to keep versions aligned.
+\documentclass[11pt,tikz,border=8pt]{standalone}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,amsmath,xcolor,tikz}
+\usetikzlibrary{arrows.meta,positioning,calc,fit,backgrounds,shapes.geometric,decorations.pathreplacing,patterns}
+\definecolor{ink}{HTML}{17324D}
+\definecolor{teal}{HTML}{087F8C}
+\definecolor{gold}{HTML}{BF7B18}
+\definecolor{redink}{HTML}{AC3543}
+\definecolor{pale}{HTML}{EDF4F8}
+\definecolor{greenink}{HTML}{33724A}
+\tikzset{every node/.style={font=\sffamily\small,text=ink,align=center},
+ box/.style={draw=ink!65,fill=pale,rounded corners=2pt,minimum height=9mm,text width=25mm,inner sep=4pt},
+ tbox/.style={box,fill=teal!9,draw=teal},gbox/.style={box,fill=gold!10,draw=gold},
+ rbox/.style={box,fill=redink!7,draw=redink},
+ arr/.style={-{Latex[length=2.3mm]},thick,draw=ink},
+ feedback/.style={-{Latex[length=2.3mm]},thick,dashed,draw=redink},
+ wire/.style={thick,draw=teal},note/.style={font=\sffamily\footnotesize,text=ink!85,align=center},
+ cell/.style={draw=ink,fill=teal!12,minimum height=6mm,minimum width=9mm,inner sep=2pt},
+ ff/.style={draw=ink,fill=pale,minimum width=14mm,minimum height=13mm,inner sep=3pt},
+ lab/.style={font=\sffamily\scriptsize,text=ink,align=center}}
+\newcommand{\FigCounter}{%
+\begin{tikzpicture}
+\node[tbox,text width=23mm] (q) at (0,0) {4-bit register\\\texttt{count[3:0]}};
+\node[box,text width=20mm] (add) at (3.2,0) {Increment\\$q+1\pmod {16}$};
+\node[gbox,text width=27mm] (mux) at (6.6,0) {Next-state select\\reset $>$ enable};
+\draw[arr] (q)--node[note,above]{$q$}(add); \draw[arr] (add)--node[note,above]{$q+1$}(mux);
+\draw[arr] (q.south)--++(0,-1.1)-|(mux.south);
+\node[note] at (3.3,-1.4) {hold $q$};
+\draw[arr] (mux.north)--++(0,1.2)-|node[note,pos=.5,above]{$d$: sampled on rising clock}(q.north);
+\draw[arr] (-2,0)--node[note,above]{clock}(q.west);
+\draw[arr] (8.8,.5)--node[note,above]{reset}(mux.east);
+\draw[arr] (8.8,-.5)--node[note,below]{enable}(mux.east);
+\node[note] at (3.2,-2.0) {Conceptual RTL datapath; mapping may absorb selection into library cells.};
+\end{tikzpicture}}
+
+\begin{document}
+\FigCounter
+\end{document}

@@ -1,0 +1,35 @@
+% Original tutorial figure; edit main.tex and regenerate to keep versions aligned.
+\documentclass[11pt,tikz,border=8pt]{standalone}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,amsmath,xcolor,tikz}
+\usetikzlibrary{arrows.meta,positioning,calc,fit,backgrounds,shapes.geometric,decorations.pathreplacing,patterns}
+\definecolor{ink}{HTML}{17324D}
+\definecolor{teal}{HTML}{087F8C}
+\definecolor{gold}{HTML}{BF7B18}
+\definecolor{redink}{HTML}{AC3543}
+\definecolor{pale}{HTML}{EDF4F8}
+\definecolor{greenink}{HTML}{33724A}
+\tikzset{every node/.style={font=\sffamily\small,text=ink,align=center},
+ box/.style={draw=ink!65,fill=pale,rounded corners=2pt,minimum height=9mm,text width=25mm,inner sep=4pt},
+ tbox/.style={box,fill=teal!9,draw=teal},gbox/.style={box,fill=gold!10,draw=gold},
+ rbox/.style={box,fill=redink!7,draw=redink},
+ arr/.style={-{Latex[length=2.3mm]},thick,draw=ink},
+ feedback/.style={-{Latex[length=2.3mm]},thick,dashed,draw=redink},
+ wire/.style={thick,draw=teal},note/.style={font=\sffamily\footnotesize,text=ink!85,align=center},
+ cell/.style={draw=ink,fill=teal!12,minimum height=6mm,minimum width=9mm,inner sep=2pt},
+ ff/.style={draw=ink,fill=pale,minimum width=14mm,minimum height=13mm,inner sep=3pt},
+ lab/.style={font=\sffamily\scriptsize,text=ink,align=center}}
+\newcommand{\FigParasitics}{%
+\begin{tikzpicture}
+\node[cell] (d) at (0,0) {Driver}; \node[cell] (l) at (7.7,0) {Load};
+\draw[wire] (d.east)--(1.2,0); \draw[ink,fill=pale] (1.2,-.16) rectangle (2.3,.16); \node[note,above] at (1.75,.2) {$R_1$};
+\draw[wire] (2.3,0)--(4,0); \draw[ink,fill=pale] (4,-.16) rectangle (5.1,.16); \node[note,above] at (4.55,.2) {$R_2$}; \draw[wire] (5.1,0)--(l.west);
+\foreach \x/\c in {2.8/C_1,5.8/C_2} {\draw[ink] (\x,0)--(\x,-.6); \draw[ink,thick] (\x-.2,-.6)--(\x+.2,-.6); \draw[ink,thick] (\x-.2,-.76)--(\x+.2,-.76); \draw[ink] (\x,-.76)--(\x,-1.1); \draw[ink] (\x-.2,-1.1)--(\x+.2,-1.1); \node[note,right] at (\x+.2,-.65) {$\c$};}
+\draw[gold,thick] (.7,1.6)--(6.7,1.6); \node[note,right] at (6.7,1.6) {neighbor wire};
+\draw[ink] (3.2,0)--(3.2,.65); \draw[ink,thick] (3,.65)--(3.4,.65); \draw[ink,thick] (3,.82)--(3.4,.82); \draw[ink] (3.2,.82)--(3.2,1.6); \node[note,right] at (3.4,.75) {$C_{coupling}$};
+\node[note] at (3.8,-1.7) {Extract routed geometry into an RC network; re-evaluate timing and noise.};
+\end{tikzpicture}}
+
+\begin{document}
+\FigParasitics
+\end{document}

@@ -1,0 +1,34 @@
+% Original tutorial figure; edit main.tex and regenerate to keep versions aligned.
+\documentclass[11pt,tikz,border=8pt]{standalone}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,amsmath,xcolor,tikz}
+\usetikzlibrary{arrows.meta,positioning,calc,fit,backgrounds,shapes.geometric,decorations.pathreplacing,patterns}
+\definecolor{ink}{HTML}{17324D}
+\definecolor{teal}{HTML}{087F8C}
+\definecolor{gold}{HTML}{BF7B18}
+\definecolor{redink}{HTML}{AC3543}
+\definecolor{pale}{HTML}{EDF4F8}
+\definecolor{greenink}{HTML}{33724A}
+\tikzset{every node/.style={font=\sffamily\small,text=ink,align=center},
+ box/.style={draw=ink!65,fill=pale,rounded corners=2pt,minimum height=9mm,text width=25mm,inner sep=4pt},
+ tbox/.style={box,fill=teal!9,draw=teal},gbox/.style={box,fill=gold!10,draw=gold},
+ rbox/.style={box,fill=redink!7,draw=redink},
+ arr/.style={-{Latex[length=2.3mm]},thick,draw=ink},
+ feedback/.style={-{Latex[length=2.3mm]},thick,dashed,draw=redink},
+ wire/.style={thick,draw=teal},note/.style={font=\sffamily\footnotesize,text=ink!85,align=center},
+ cell/.style={draw=ink,fill=teal!12,minimum height=6mm,minimum width=9mm,inner sep=2pt},
+ ff/.style={draw=ink,fill=pale,minimum width=14mm,minimum height=13mm,inner sep=3pt},
+ lab/.style={font=\sffamily\scriptsize,text=ink,align=center}}
+\newcommand{\FigScan}{%
+\begin{tikzpicture}
+\node[ff] (a) at (0,0) {Scan\\FF0}; \node[ff] (b) at (2.7,0) {Scan\\FF1}; \node[ff] (c) at (5.4,0) {Scan\\FF2};
+\draw[arr,teal] (-2,0)--node[note,above]{scan in}(a); \draw[arr,teal] (a)--(b); \draw[arr,teal] (b)--(c); \draw[arr,teal] (c)--node[note,above]{scan out}(7.5,0);
+\foreach \x/\n in {0/a,2.7/b,5.4/c} {\draw[arr] (\x,1.6)--node[note,above,pos=0]{functional D}(\n.north);}
+\draw[ink,thick] (-1,-1.1)--(6.1,-1.1); \foreach \n in {a,b,c} {\draw[arr] (\n.south |- 0,-1.1)--(\n.south);}
+\node[note,anchor=east] at (-1,-1.1) {test clock};
+\node[note] at (2.7,-1.8) {scan enable = 1: shift; = 0: functional capture; then shift response out.};
+\end{tikzpicture}}
+
+\begin{document}
+\FigScan
+\end{document}

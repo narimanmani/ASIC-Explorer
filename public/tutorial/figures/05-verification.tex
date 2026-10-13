@@ -1,0 +1,35 @@
+% Original tutorial figure; edit main.tex and regenerate to keep versions aligned.
+\documentclass[11pt,tikz,border=8pt]{standalone}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,amsmath,xcolor,tikz}
+\usetikzlibrary{arrows.meta,positioning,calc,fit,backgrounds,shapes.geometric,decorations.pathreplacing,patterns}
+\definecolor{ink}{HTML}{17324D}
+\definecolor{teal}{HTML}{087F8C}
+\definecolor{gold}{HTML}{BF7B18}
+\definecolor{redink}{HTML}{AC3543}
+\definecolor{pale}{HTML}{EDF4F8}
+\definecolor{greenink}{HTML}{33724A}
+\tikzset{every node/.style={font=\sffamily\small,text=ink,align=center},
+ box/.style={draw=ink!65,fill=pale,rounded corners=2pt,minimum height=9mm,text width=25mm,inner sep=4pt},
+ tbox/.style={box,fill=teal!9,draw=teal},gbox/.style={box,fill=gold!10,draw=gold},
+ rbox/.style={box,fill=redink!7,draw=redink},
+ arr/.style={-{Latex[length=2.3mm]},thick,draw=ink},
+ feedback/.style={-{Latex[length=2.3mm]},thick,dashed,draw=redink},
+ wire/.style={thick,draw=teal},note/.style={font=\sffamily\footnotesize,text=ink!85,align=center},
+ cell/.style={draw=ink,fill=teal!12,minimum height=6mm,minimum width=9mm,inner sep=2pt},
+ ff/.style={draw=ink,fill=pale,minimum width=14mm,minimum height=13mm,inner sep=3pt},
+ lab/.style={font=\sffamily\scriptsize,text=ink,align=center}}
+\newcommand{\FigVerification}{%
+\begin{tikzpicture}[node distance=9mm and 12mm]
+\node[box] (spec) {Specification\\expected behavior}; \node[tbox,right=of spec] (rtl) {RTL model}; \node[box,right=of rtl] (net) {Mapped netlist};
+\node[gbox,below=of spec] (sim) {Simulation\\stimulus + checks};
+\node[gbox,below=of rtl] (prop) {Formal properties\\assumptions + proof};
+\node[gbox,below=of net] (eq) {Equivalence\\RTL vs. netlist};
+\draw[arr] (spec)--(rtl); \draw[arr] (rtl)--(net); \draw[arr] (spec)--(sim); \draw[arr] (rtl)--(prop); \draw[arr] (net)--(eq);
+\draw[arr] (rtl.south west)--(sim.north east); \draw[arr] (rtl.south east)--(eq.north west);
+\node[note,below=6mm of prop] {Lint and CDC/reset checks complement these; coverage guides missing cases.};
+\end{tikzpicture}}
+
+\begin{document}
+\FigVerification
+\end{document}

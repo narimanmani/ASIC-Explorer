@@ -1,0 +1,37 @@
+% Original tutorial figure; edit main.tex and regenerate to keep versions aligned.
+\documentclass[11pt,tikz,border=8pt]{standalone}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,amsmath,xcolor,tikz}
+\usetikzlibrary{arrows.meta,positioning,calc,fit,backgrounds,shapes.geometric,decorations.pathreplacing,patterns}
+\definecolor{ink}{HTML}{17324D}
+\definecolor{teal}{HTML}{087F8C}
+\definecolor{gold}{HTML}{BF7B18}
+\definecolor{redink}{HTML}{AC3543}
+\definecolor{pale}{HTML}{EDF4F8}
+\definecolor{greenink}{HTML}{33724A}
+\tikzset{every node/.style={font=\sffamily\small,text=ink,align=center},
+ box/.style={draw=ink!65,fill=pale,rounded corners=2pt,minimum height=9mm,text width=25mm,inner sep=4pt},
+ tbox/.style={box,fill=teal!9,draw=teal},gbox/.style={box,fill=gold!10,draw=gold},
+ rbox/.style={box,fill=redink!7,draw=redink},
+ arr/.style={-{Latex[length=2.3mm]},thick,draw=ink},
+ feedback/.style={-{Latex[length=2.3mm]},thick,dashed,draw=redink},
+ wire/.style={thick,draw=teal},note/.style={font=\sffamily\footnotesize,text=ink!85,align=center},
+ cell/.style={draw=ink,fill=teal!12,minimum height=6mm,minimum width=9mm,inner sep=2pt},
+ ff/.style={draw=ink,fill=pale,minimum width=14mm,minimum height=13mm,inner sep=3pt},
+ lab/.style={font=\sffamily\scriptsize,text=ink,align=center}}
+\newcommand{\FigHold}{%
+\begin{tikzpicture}[x=1cm,y=1cm]
+\draw[arr] (0,0)--(9.1,0) node[right,note]{time};
+\draw[teal,thick] (.7,0)--(.7,1.3); \node[note,text width=20mm,above] at (.7,1.3) {launch edge\\$L$};
+\draw[teal,thick] (3.7,0)--(3.7,1.3); \node[note,text width=25mm,above] at (3.7,1.3) {same-cycle capture\\$C$};
+\fill[gold!16] (3.7,.15) rectangle (5.2,.8); \node[note] at (4.45,.48) {hold + margin};
+\draw[gold,dashed,thick] (5.2,0)--(5.2,1);
+\draw[arr,redink] (.7,-.5)--(4.6,-.5); \node[note,text=redink,below] at (2.65,-.5) {too-early new data};
+\draw[arr,teal] (.7,-1.15)--(6,-1.15); \node[note,below] at (3.35,-1.15) {after delay repair};
+\node[note] at (5,2.65) {Required $=C+t_{hold}+U_{hold}$};
+\node[note] at (4.5,-2) {Hold slack $=(L+t_{cq,min}+t_{data,min})-$ required};
+\end{tikzpicture}}
+
+\begin{document}
+\FigHold
+\end{document}

@@ -1,0 +1,36 @@
+% Original tutorial figure; edit main.tex and regenerate to keep versions aligned.
+\documentclass[11pt,tikz,border=8pt]{standalone}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,amsmath,xcolor,tikz}
+\usetikzlibrary{arrows.meta,positioning,calc,fit,backgrounds,shapes.geometric,decorations.pathreplacing,patterns}
+\definecolor{ink}{HTML}{17324D}
+\definecolor{teal}{HTML}{087F8C}
+\definecolor{gold}{HTML}{BF7B18}
+\definecolor{redink}{HTML}{AC3543}
+\definecolor{pale}{HTML}{EDF4F8}
+\definecolor{greenink}{HTML}{33724A}
+\tikzset{every node/.style={font=\sffamily\small,text=ink,align=center},
+ box/.style={draw=ink!65,fill=pale,rounded corners=2pt,minimum height=9mm,text width=25mm,inner sep=4pt},
+ tbox/.style={box,fill=teal!9,draw=teal},gbox/.style={box,fill=gold!10,draw=gold},
+ rbox/.style={box,fill=redink!7,draw=redink},
+ arr/.style={-{Latex[length=2.3mm]},thick,draw=ink},
+ feedback/.style={-{Latex[length=2.3mm]},thick,dashed,draw=redink},
+ wire/.style={thick,draw=teal},note/.style={font=\sffamily\footnotesize,text=ink!85,align=center},
+ cell/.style={draw=ink,fill=teal!12,minimum height=6mm,minimum width=9mm,inner sep=2pt},
+ ff/.style={draw=ink,fill=pale,minimum width=14mm,minimum height=13mm,inner sep=3pt},
+ lab/.style={font=\sffamily\scriptsize,text=ink,align=center}}
+\newcommand{\FigSignoff}{%
+\begin{tikzpicture}
+\node[tbox,text width=33mm] at (1.7,3.1) {DRC: geometry rules};
+\draw[teal,fill=teal!15] (0,.4) rectangle (1.3,1.9); \draw[teal,fill=teal!15] (1.65,.4) rectangle (2.95,1.9);
+\draw[<->,redink,thick] (1.3,1.15)--(1.65,1.15); \node[note,text=redink,text width=30mm] at (1.5,-.15) {Too little spacing\\for the selected rule};
+\node[tbox,text width=38mm] at (6.9,3.1) {LVS: extracted connectivity};
+\node[box,text width=25mm] (ref) at (5.4,1.55) {Reference\\netlist}; \node[box,text width=25mm] (ext) at (8.6,1.55) {Layout-extracted\\netlist};
+\draw[<->,ink,thick] (ref)--(ext); \node[note] at (7,2.2) {compare};
+\node[note,text width=58mm] at (7,0) {Open / short? Missing device?\\Wrong parameter?};
+\node[note] at (4.6,-1.15) {DRC does not prove LVS; passing both does not prove timing or specification correctness.};
+\end{tikzpicture}}
+
+\begin{document}
+\FigSignoff
+\end{document}

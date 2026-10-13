@@ -1,0 +1,35 @@
+% Original tutorial figure; edit main.tex and regenerate to keep versions aligned.
+\documentclass[11pt,tikz,border=8pt]{standalone}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,amsmath,xcolor,tikz}
+\usetikzlibrary{arrows.meta,positioning,calc,fit,backgrounds,shapes.geometric,decorations.pathreplacing,patterns}
+\definecolor{ink}{HTML}{17324D}
+\definecolor{teal}{HTML}{087F8C}
+\definecolor{gold}{HTML}{BF7B18}
+\definecolor{redink}{HTML}{AC3543}
+\definecolor{pale}{HTML}{EDF4F8}
+\definecolor{greenink}{HTML}{33724A}
+\tikzset{every node/.style={font=\sffamily\small,text=ink,align=center},
+ box/.style={draw=ink!65,fill=pale,rounded corners=2pt,minimum height=9mm,text width=25mm,inner sep=4pt},
+ tbox/.style={box,fill=teal!9,draw=teal},gbox/.style={box,fill=gold!10,draw=gold},
+ rbox/.style={box,fill=redink!7,draw=redink},
+ arr/.style={-{Latex[length=2.3mm]},thick,draw=ink},
+ feedback/.style={-{Latex[length=2.3mm]},thick,dashed,draw=redink},
+ wire/.style={thick,draw=teal},note/.style={font=\sffamily\footnotesize,text=ink!85,align=center},
+ cell/.style={draw=ink,fill=teal!12,minimum height=6mm,minimum width=9mm,inner sep=2pt},
+ ff/.style={draw=ink,fill=pale,minimum width=14mm,minimum height=13mm,inner sep=3pt},
+ lab/.style={font=\sffamily\scriptsize,text=ink,align=center}}
+\newcommand{\FigPlacement}{%
+\begin{tikzpicture}[x=1cm,y=1cm]
+\node[note] at (1.7,3.3) {Global placement}; \node[note] at (6.6,3.3) {Legalized placement};
+\foreach \x in {0,4.9} {\draw[ink] (\x,0) rectangle +(3.4,2.8); \foreach \y in {.5,1.1,1.7,2.3} {\draw[ink!25] (\x,\y)--+(3.4,0);}}
+\foreach \x/\y/\n in {.3/.5/A,.9/.75/B,1.5/1.6/C,2.1/1.75/D,2.5/.8/E} {\node[cell] at (\x,\y) {\n};}
+\foreach \x/\y/\n in {5.5/.55/A,6.5/.55/B,5.5/1.15/C,6.5/1.15/D,7.5/1.75/E} {\node[cell] at (\x,\y) {\n};}
+\draw[arr] (3.55,1.4)--(4.7,1.4);
+\node[note,text width=35mm] at (1.7,-.6) {Rough positions;\\overlap can remain.};
+\node[note,text width=35mm] at (6.6,-.6) {Align to legal sites / rows;\\remove overlap.};
+\end{tikzpicture}}
+
+\begin{document}
+\FigPlacement
+\end{document}

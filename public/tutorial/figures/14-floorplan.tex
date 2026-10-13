@@ -1,0 +1,36 @@
+% Original tutorial figure; edit main.tex and regenerate to keep versions aligned.
+\documentclass[11pt,tikz,border=8pt]{standalone}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,amsmath,xcolor,tikz}
+\usetikzlibrary{arrows.meta,positioning,calc,fit,backgrounds,shapes.geometric,decorations.pathreplacing,patterns}
+\definecolor{ink}{HTML}{17324D}
+\definecolor{teal}{HTML}{087F8C}
+\definecolor{gold}{HTML}{BF7B18}
+\definecolor{redink}{HTML}{AC3543}
+\definecolor{pale}{HTML}{EDF4F8}
+\definecolor{greenink}{HTML}{33724A}
+\tikzset{every node/.style={font=\sffamily\small,text=ink,align=center},
+ box/.style={draw=ink!65,fill=pale,rounded corners=2pt,minimum height=9mm,text width=25mm,inner sep=4pt},
+ tbox/.style={box,fill=teal!9,draw=teal},gbox/.style={box,fill=gold!10,draw=gold},
+ rbox/.style={box,fill=redink!7,draw=redink},
+ arr/.style={-{Latex[length=2.3mm]},thick,draw=ink},
+ feedback/.style={-{Latex[length=2.3mm]},thick,dashed,draw=redink},
+ wire/.style={thick,draw=teal},note/.style={font=\sffamily\footnotesize,text=ink!85,align=center},
+ cell/.style={draw=ink,fill=teal!12,minimum height=6mm,minimum width=9mm,inner sep=2pt},
+ ff/.style={draw=ink,fill=pale,minimum width=14mm,minimum height=13mm,inner sep=3pt},
+ lab/.style={font=\sffamily\scriptsize,text=ink,align=center}}
+\newcommand{\FigFloorplan}{%
+\begin{tikzpicture}[x=1cm,y=1cm]
+\draw[ink,thick,fill=ink!3] (0,0) rectangle (8,5); \draw[teal,dashed,thick] (.8,.7) rectangle (7.2,4.3);
+\node[note] at (4,5.4) {die boundary / chip periphery}; \node[note] at (4,3.98) {core: standard-cell rows + routing space};
+\foreach \y in {1,1.35,1.7,2.05,2.4,2.75,3.1,3.45} {\draw[ink!20] (1,\y)--(7,\y);}
+\draw[gold,fill=gold!18] (1.15,2) rectangle (2.85,3.5); \node at (2,2.75) {SRAM\\macro};
+\draw[gold,dashed] (.95,1.8) rectangle (3.05,3.7); \node[note,text width=24mm] at (5.3,2.8) {Reserved channel\\and macro halo};
+\foreach \x in {1,2.1,3.2,4.3,5.4,6.5} {\draw[ink,fill=teal!18] (\x,.08) rectangle +(.5,.32); \draw[ink,fill=teal!18] (\x,4.6) rectangle +(.5,.32);}
+\foreach \y in {1,2,3,4} {\draw[ink,fill=teal!18] (.08,\y) rectangle +(.32,.4); \draw[ink,fill=teal!18] (7.6,\y) rectangle +(.32,.4);}
+\node[note] at (4,-.45) {Generic larger-chip example; the teaching counter has no SRAM macro.};
+\end{tikzpicture}}
+
+\begin{document}
+\FigFloorplan
+\end{document}

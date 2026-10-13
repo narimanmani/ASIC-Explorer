@@ -1,0 +1,45 @@
+{
+  "name": "asic-explorer",
+  "version": "1.0.0",
+  "description": "Interactive classroom exploration of RTL, synthesized circuits, and ASIC design concepts",
+  "author": "Nariman Mani",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/narimanmani/ASIC-Explorer.git"
+  },
+  "engines": {
+    "node": ">=22.19.0"
+  },
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev --webpack -H 127.0.0.1 -p 4175",
+    "build": "next build --webpack",
+    "start": "next start -H 127.0.0.1 -p 4175",
+    "prepare": "node scripts/prepare-assets.mjs",
+    "examples": "node --experimental-strip-types scripts/build-examples.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test tests/*.test.mjs",
+    "check:api": "node scripts/check-api.mjs"
+  },
+  "dependencies": {
+    "@monaco-editor/react": "4.7.0",
+    "@yowasp/yosys": "0.70.62-dev.1236",
+    "3vl": "1.0.1",
+    "digitaljs": "0.14.2",
+    "elkjs": "0.11.0",
+    "lucide-react": "^0.577.0",
+    "monaco-editor": "0.55.1",
+    "next": "16.3.8",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "yosys2digitaljs": "0.10.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "typescript": "^5.9.3"
+  }
+}

@@ -1,0 +1,35 @@
+% Original tutorial figure; edit main.tex and regenerate to keep versions aligned.
+\documentclass[11pt,tikz,border=8pt]{standalone}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,amsmath,xcolor,tikz}
+\usetikzlibrary{arrows.meta,positioning,calc,fit,backgrounds,shapes.geometric,decorations.pathreplacing,patterns}
+\definecolor{ink}{HTML}{17324D}
+\definecolor{teal}{HTML}{087F8C}
+\definecolor{gold}{HTML}{BF7B18}
+\definecolor{redink}{HTML}{AC3543}
+\definecolor{pale}{HTML}{EDF4F8}
+\definecolor{greenink}{HTML}{33724A}
+\tikzset{every node/.style={font=\sffamily\small,text=ink,align=center},
+ box/.style={draw=ink!65,fill=pale,rounded corners=2pt,minimum height=9mm,text width=25mm,inner sep=4pt},
+ tbox/.style={box,fill=teal!9,draw=teal},gbox/.style={box,fill=gold!10,draw=gold},
+ rbox/.style={box,fill=redink!7,draw=redink},
+ arr/.style={-{Latex[length=2.3mm]},thick,draw=ink},
+ feedback/.style={-{Latex[length=2.3mm]},thick,dashed,draw=redink},
+ wire/.style={thick,draw=teal},note/.style={font=\sffamily\footnotesize,text=ink!85,align=center},
+ cell/.style={draw=ink,fill=teal!12,minimum height=6mm,minimum width=9mm,inner sep=2pt},
+ ff/.style={draw=ink,fill=pale,minimum width=14mm,minimum height=13mm,inner sep=3pt},
+ lab/.style={font=\sffamily\scriptsize,text=ink,align=center}}
+\newcommand{\FigMapping}{%
+\begin{tikzpicture}[node distance=7mm]
+\node[tbox,text width=28mm] (rtl) {RTL operations\\register, add, select};
+\node[box,text width=28mm,right=of rtl] (ir) {Elaborate + optimize\\Boolean graph\\+ state};
+\node[gbox,text width=28mm,right=of ir] (map) {Technology mapping\\choose library cells};
+\node[box,text width=28mm,below=13mm of map] (cells) {DFF, XOR, AND, MUX\\specific sizes / variants};
+\node[tbox,text width=28mm,left=of cells] (lib) {Liberty models\\function, delay,\\power};
+\draw[arr] (rtl)--(ir); \draw[arr] (ir)--(map); \draw[arr] (map)--(cells); \draw[arr] (lib.north east)--(map.south west);
+\node[note,left=7mm of lib,text width=28mm] {Not a one-line-to-one-gate translation.};
+\end{tikzpicture}}
+
+\begin{document}
+\FigMapping
+\end{document}
