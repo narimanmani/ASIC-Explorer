@@ -1,0 +1,6 @@
+.anvil
+.DS_Store
+repos/*
+.idea
+.build
+resolve-version/target

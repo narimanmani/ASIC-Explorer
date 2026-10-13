@@ -1,0 +1,34 @@
+{
+  "name": "yarn-plugin-prune-dev-dependencies",
+  "version": "0.0.1",
+  "packageManager": "npm@8.15.0",
+  "main": "./src/index.ts",
+  "dependencies": {
+    "@yarnpkg/builder": "^4.2.4",
+    "@yarnpkg/core": "^4.9.0",
+    "clipanion": "^3.2.1"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.14",
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^26.6.3",
+    "fs-extra": "^11.4.1",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.0"
+  },
+  "scripts": {
+    "build": "npm run lint && npm run format && builder build plugin --no-minify",
+    "lint": "biome check --write .",
+    "lint:check": "biome check .",
+    "format": "biome format --write .",
+    "test": "npm run build && vitest run"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "overrides": {
+    "parse-path": "^5.0.0",
+    "parse-url": "^8.1.0",
+    "tar": "^7.5.22"
+  }
+}
