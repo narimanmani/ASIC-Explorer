@@ -82,6 +82,17 @@ The Design intent page previously displayed four static zeros and asked a questi
 - The Heroku app record `asic-explorer-narimanmani` was created on heroku-24 in the US region with the official Node.js buildpack. This preparation record does not claim a live deployment or authorization of a paid running formation.
 - A small shared demo uses one compilation worker, a 20-second compilation deadline, a 24,000-byte streamed request cap, a five-second body deadline, and bounded output. These measures do not establish complete abuse prevention or isolation for an unrestricted multi-user EDA service. Known editor dependency-audit findings remain documented in SECURITY.md.
 
+## Live Heroku deployment — October 12, 2026
+
+- Release v3 succeeded for application commit `3941aa7eb2bab968c9a09b896504a0697ae53baa`, using Node 22.23.3 and npm 10.9.9. Heroku's production compilation and TypeScript checks passed; the server reached Ready and web.1 reached Up. The public root returned HTTP 200.
+- The account owner approved one Basic dyno at up to US$7/month. The formation and empty add-on inventory were verified. The application is `asic-explorer-narimanmani` on heroku-24 in the US region.
+- The official Node runtime download repeatedly stalled with the stock buildpack. A pinned, licensed snapshot of Heroku's buildpack adds resumable download attempts, retaining its official runtime source, TLS checks, and SHA-256 verification. The completed archive passed checksum validation. The deployment uses buildpack commit `30450ab9a07e6b2f45b66baf3d9a4cc60921adc1`; details are in [HEROKU.md](HEROKU.md).
+- `npm run check:api` passed against the public HTTPS app: edited increment-by-three HDL, syntax diagnostics (422), invalid top-module input (400), malformed JSON (400), oversized input (413), unsupported method (405), tutorial PDF, and all five example assets.
+- Browser verification on the hosted app: Start over and two enabled steps gave 2 / 0010; disabling Enable and stepping retained 2 after three edges. Asserting synchronous Reset retained 2 until the next step, then cleared to 0 with Enable off. Moving to RTL preserved the simulator state.
+- Edited the actual Monaco source to increment by 2. Uncompiled edits disabled clock stepping; Synthesize completed through the hosted API. Two steps produced 2 then 4 / 0100, with matching circuit values and waveform history. Switching to generic gates and back retained count 4 and two edges; both circuit representations rendered.
+- The deployed introduction and edited-source experiment were captured and visually reviewed in `heroku-live-preview.jpg` and `heroku-synthesis-preview.jpg`. The prepared counter and Guided introduction were restored after verification.
+- Recent runtime logs contained no R14, R15, H10, or H12 errors in the inspected window. This observation is not a sustained-load or availability guarantee. No physical-design engine was added; the documented illustrative scope remains unchanged.
+
 ## Interpretation
 
 These checks establish the implemented examples and controls, not educational effectiveness, exhaustive SystemVerilog support, foundry timing, or chip signoff. The physical models do not run placement, CTS, routing, extraction, DRC, or LVS tools. The app labels these illustrations explicitly. No fabrication-ready layout is generated.

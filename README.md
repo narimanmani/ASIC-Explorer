@@ -2,6 +2,8 @@
 
 **An open-source interactive learning environment for digital logic and ASIC design concepts.**
 
+**[Open the live demo](https://asic-explorer-narimanmani-a1aa7fa79bdd.herokuapp.com/#intent)** · [Initial release](https://github.com/narimanmani/ASIC-Explorer/releases/tag/v1.0.0)
+
 A Next.js lecture companion for **ASIC Design Flow: From RTL to Physical Chip Design**. Use it beside the tutorial and slides: explain a concept, ask students to predict a result, then demonstrate it in the app.
 
 Designed for classroom demonstrations, practical exercises, and self-directed learning, including students approaching hardware from a software background. Begin with one counter and the three jobs **store, calculate, update**, then follow its behavior into synthesized circuit representations.
@@ -231,6 +233,12 @@ Key source files: `components/explorer.tsx` coordinates lessons; `lib/compile.mj
 This is a teaching artifact. Its implementation and tests establish the behaviors described above; they do not constitute evidence of improved educational outcomes or fabrication readiness.
 
 ## Heroku deployment
+
+The [live demo](https://asic-explorer-narimanmani-a1aa7fa79bdd.herokuapp.com/#intent) runs on one Basic web dyno, without a database or add-ons. The hosted introduction, Enable/Reset controls, edited-source synthesis, word/gate views, and API checks were verified on October 12, 2026. The shared demo permits one compilation at a time and six starts per minute; local installation is available for independent classroom use.
+
+This hosted experiment changes the counter to add 2, synthesizes it, then steps twice to produce **4 / 0100**. The circuit and waveform follow the edited rule.
+
+![Hosted ASIC Explorer with edited increment-by-two RTL, synthesized circuit, and waveform reaching four after two clock edges](docs/heroku-synthesis-preview.jpg)
 
 The app includes a `Procfile`, a Node 22 runtime declaration, and a Heroku build hook. Heroku startup uses the assigned `PORT` on `0.0.0.0`; local `npm start` remains at `127.0.0.1:4175`. The build prepares the local editor assets before compiling Next.js. No database or external synthesis service is required.
 

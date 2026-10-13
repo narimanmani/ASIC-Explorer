@@ -4,18 +4,22 @@ Heroku application: `asic-explorer-narimanmani`.
 
 Dashboard: https://dashboard.heroku.com/apps/asic-explorer-narimanmani
 
-Assigned URL: https://asic-explorer-narimanmani-a1aa7fa79bdd.herokuapp.com/
+Live demo: https://asic-explorer-narimanmani-a1aa7fa79bdd.herokuapp.com/#intent
 
-This app record is created in the maintainer's personal account. The URL becomes usable after a successful deployment and activation of a web dyno; creating the empty app record alone does not deploy the source.
+Deployed and verified on **October 12, 2026**, in the maintainer's personal account. Release **v3** succeeded with application commit `3941aa7eb2bab968c9a09b896504a0697ae53baa`; one **Basic** web dyno is running, with no database or add-ons. The account owner approved this formation at up to **US$7/month**. Subsequent documentation commits on GitHub do not change this recorded runtime revision.
+
+![Live introductory counter holding two with Enable off](heroku-live-preview.jpg)
 
 ## Configuration
 
-- Stack: `heroku-24`, US region, classic `heroku/nodejs` buildpack.
+- Stack: `heroku-24`, US region, a pinned snapshot of Heroku's classic Node.js buildpack.
 - Runtime: Node 22.x, matching the tested LTS line.
 - Build: `heroku-postbuild` prepares local Monaco assets and runs the production Next.js build. Dependencies come from the committed npm lockfile.
 - Process: `web: npm start`. The launcher uses `PORT` and binds to `0.0.0.0` when `DYNO` is present. Local startup uses loopback and port 4175 by default.
 - Formation: one web dyno, without a database, add-on, background worker, or external synthesis service.
 - Shared synthesis: one active compilation, at most six starts per minute per process, and a 20-second worker deadline. Request bodies are capped at 24,000 bytes with a five-second read deadline; output is capped at approximately five million characters. These controls are defined in the source rather than secret configuration.
+
+Buildpack source: https://github.com/narimanmani/ASIC-Explorer/tree/codex/heroku-nodejs-buildpack, pinned to commit `30450ab9a07e6b2f45b66baf3d9a4cc60921adc1`. It snapshots Heroku's official buildpack at `baf13a3c963062b874ee1e75c5d50cb8b14806be` and changes only the Node runtime download to resume interrupted transfers, with up to six 90-second attempts. Initial deployments stalled on the runtime archive, and extending a single-attempt timeout did not resolve the issue. Official runtime selection, download source, SHA-256 validation, and TLS checks are retained. Buildpack download deadlines are separate from the application's synthesis and HTTP deadlines.
 
 One Basic dyno costs up to **US$7 per month**, prorated by usage, according to [Heroku pricing](https://devcenter.heroku.com/articles/usage-and-billing). An Eco plan has a separate shared-hours subscription and sleep behavior. Choosing a paid formation creates recurring usage charges; do not activate it without the account owner's authorization. Scaling the web process to zero stops its dyno usage and makes the app unavailable.
 
@@ -27,6 +31,12 @@ Use the Heroku CLI while authenticated to the intended account. The repository's
 git push heroku main
 heroku ps --app asic-explorer-narimanmani
 heroku logs --app asic-explorer-narimanmani --num 100
+```
+
+When Git selects another saved credential helper instead of the authenticated Heroku CLI, use:
+
+```sh
+git -c credential.helper= -c 'credential.helper=!heroku git:credentials' push heroku main
 ```
 
 The public Node server retains the functional synthesis engine and the locally served editor. No API key or database is needed. Heroku's filesystem is ephemeral; the app does not use it to store student code, simulation progress, or accounts. Source and state remain in the current browser session, without server-side persistence.
