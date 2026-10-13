@@ -152,7 +152,18 @@ function runtimes::nodejs::_install() {
 	fi
 
 	output_file="/tmp/node.tar.gz"
-	if ! curl "${download_url}" --no-progress-meter --location --fail --max-time 180 --retry 5 --retry-connrefused --connect-timeout 5 -o "${output_file}"; then
+	local downloaded=false attempt
+	for attempt in 1 2 3 4 5 6; do
+		if curl "${download_url}" --no-progress-meter --location --fail --max-time 90 --connect-timeout 5 --continue-at - -o "${output_file}"; then
+			downloaded=true
+			break
+		fi
+		if [[ "${attempt}" -lt 6 ]]; then
+			echo "Resuming interrupted Node runtime download (attempt $((attempt + 1)) of 6)..."
+			sleep 1
+		fi
+	done
+	if [[ "${downloaded}" != "true" ]]; then
 		runtimes::nodejs::_fail_node_download "${download_url}"
 	fi
 
