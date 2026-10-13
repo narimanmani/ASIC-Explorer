@@ -2,7 +2,7 @@
 
 ASIC Explorer original code and teaching assets are MIT licensed. External dependencies retain their own licenses and copyright notices. This repository contains source, examples, screenshots, and teaching assets; installed dependencies, generated builds, and copied editor runtime assets are excluded from Git. `npm ci` obtains the locked packages from npm.
 
-The inventory in [docs/dependency-licenses.json](docs/dependency-licenses.json) records all 131 locked package entries, including optional platform packages. License declarations were checked against the lockfile and installed package metadata on October 12, 2026. Copies of available LICENSE/COPYING/NOTICE files from the installed packages are retained in [licenses/dependencies](licenses/dependencies/). The YoWASP and Yosys ISC notices were obtained from their official repositories.
+The inventory in [docs/dependency-licenses.json](docs/dependency-licenses.json) records all 148 locked package entries, including optional platform packages. License declarations were checked against the lockfile and installed package metadata on October 12, 2026. Copies of available LICENSE/COPYING/NOTICE files from the installed packages are retained in [licenses/dependencies](licenses/dependencies/). The YoWASP and Yosys ISC notices were obtained from their official repositories.
 
 ## Direct dependencies
 
@@ -19,12 +19,16 @@ The inventory in [docs/dependency-licenses.json](docs/dependency-licenses.json) 
 | `lucide-react` | 0.577.0 | ISC | [Upstream](https://github.com/lucide-icons/lucide) |
 | `monaco-editor` | 0.55.1 | MIT | [Upstream](https://github.com/microsoft/monaco-editor) |
 | `next` | 16.3.8 | MIT | [Upstream](https://github.com/vercel/next.js) |
+| `maxmind` | 5.0.7 | MIT | [Upstream](https://github.com/runk/node-maxmind) |
+| `pg` | 8.23.1 | MIT | [Upstream](https://github.com/brianc/node-postgres) |
 | `react` | 19.3.0 | MIT | [Upstream](https://github.com/react/react) |
 | `react-dom` | 19.3.0 | MIT | [Upstream](https://github.com/react/react) |
 | `typescript` | 5.9.3 | Apache-2.0 | [Upstream](https://github.com/microsoft/TypeScript) |
 | `yosys2digitaljs` | 0.10.3 | BSD-2-Clause | [Upstream](https://github.com/tilk/yosys2digitaljs) |
 
 ## Dependencies with separate source-license terms
+
+- **DB-IP City Lite:** October 2026 location data, [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), from [DB-IP](https://db-ip.com/db/download/ip-to-city-lite). The ignored MMDB build asset is downloaded with its published checksum verified. History and privacy pages link to DB-IP; no visitor IPs are sent to its service. This data is not covered by the application's MIT license. See [history documentation](docs/HISTORY.md).
 
 - **ELK.js:** EPL-2.0. Its unmodified upstream source is available from https://github.com/kieler/elkjs/tree/v0.11.0 and through its npm package. Preserve the EPL notice and source-access information when redistributing its runtime.
 - **JointJS core and directed-graph layout:** MPL-2.0, through the DigitalJS toolchain. Sources are available from https://github.com/clientIO/joint and https://github.com/clientIO/joint-layout-directed-graph; versions are recorded in the inventory. Preserve their notices and applicable source terms.

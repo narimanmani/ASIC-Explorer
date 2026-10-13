@@ -14,6 +14,7 @@ import { SignoffLab } from './signoff-lab';
 import { DesignIntent } from './design-intent';
 import { TeachingNotes } from './teaching-notes';
 import { PracticeGuide } from './practice-guide';
+import { VisitorTracker } from './visitor-tracker';
 
 const Editor = dynamic(() => import('./hdl-editor').then((m) => m.HdlEditor), { ssr: false, loading: () => <div className="empty-state">Loading local HDL editor…</div> });
 const emptySelection = { id: '', name: '', detail: 'Select an adder, flip-flop, or gate to inspect what it does and where it came from.', lines: undefined as [number, number] | undefined };
@@ -26,7 +27,7 @@ const DEVICE_INFO: Record<string, string> = {
 };
 const ICONS = [FileText, Code2, Cpu, Timer, Layers, Activity, Zap, Check];
 
-export function Explorer() {
+export function Explorer({ recordVisits = false }: { recordVisits?: boolean }) {
   const [lesson, setLesson] = useState<LessonId>('intent');
   const [example, setExample] = useState('counter');
   const [source, setSource] = useState(COUNTER_SOURCE);
@@ -162,6 +163,7 @@ export function Explorer() {
         </> : lesson === 'intent' ? <DesignIntent go={go} counter={{ prepared: example === 'counter' && !customSource, ready, value: behavior.values.count ?? 'xxxx', cycles: behavior.cycles, enabled: behavior.values.en === '1', resetRequested: behavior.values.rst === '1', onStep: step, onEnable: () => setInput('en', behavior.values.en === '1' ? '0' : '1'), onReset: () => setInput('rst', behavior.values.rst === '1' ? '0' : '1'), onRestart: reset, onLoad: () => { setGateMode(false); loadExample('counter'); } }} /> : lesson === 'timing' ? <TimingLab guided={guided} /> : lesson === 'signoff' ? <SignoffLab /> : <PhysicalLab key={lesson} stage={lesson} />}
         {!guided && <section className="question-card"><div className="question-icon">?</div><div><span className="eyebrow">Pause & predict</span><h2>{exampleQuestion?.question ?? item.question}</h2>{answer && <p className="answer-text">{exampleQuestion?.answer ?? item.answer}</p>}</div><button className="secondary" aria-expanded={answer} onClick={() => setAnswer(!answer)}>{answer ? 'Hide explanation' : 'Reveal explanation'}<ChevronDown size={15} /></button></section>}
         <footer className="lesson-footer"><span><kbd>←</kbd><kbd>→</kbd> lessons <span className="footer-divider">·</span><kbd>Space</kbd> step clock <span className="footer-divider">·</span><kbd>P</kbd> present</span><span>HDL simulation · conceptual physical models</span></footer>
+        {recordVisits && <VisitorTracker lesson={lesson} />}
       </main>
     </div>
     {notes && <TeachingNotes lesson={lesson} guided={guided} onClose={closeNotes} />}

@@ -93,6 +93,16 @@ The Design intent page previously displayed four static zeros and asked a questi
 - The deployed introduction and edited-source experiment were captured and visually reviewed in `heroku-live-preview.jpg` and `heroku-synthesis-preview.jpg`. The prepared counter and Guided introduction were restored after verification.
 - Recent runtime logs contained no R14, R15, H10, or H12 errors in the inspected window. This observation is not a sustained-load or availability guarantee. No physical-design engine was added; the documented illustrative scope remains unchanged.
 
+## Private history implementation — October 12, 2026
+
+- Added the password-protected `/history` owner page, private `/history/data` reads, sign-in/sign-out, period and lesson filters, pagination, summary counts, public recording notice, and `/privacy` explanation. Collection remains explicitly disabled without owner credentials and appropriate storage.
+- Production build and TypeScript validation passed. All **17 tests** passed, including password/session verification, tampering/expiry/purpose/rotation checks, trusted proxy/origin boundaries, attempt limits, persistence across SQLite reopening, visit sampling, filtering, retention, and prevention of local-disk fallback on Heroku.
+- HTTP checks passed on the local production preview: unauthenticated/forged/expired/visitor-purpose sessions returned 401; cross-origin login/capture returned 403; owner sign-in, cookie flags, actual capture, duplicate sampling, GPC/DNT opt-out, filtered private reads, and sign-out passed. The existing edited-synthesis/diagnostic/asset API checks also passed on this server.
+- Browser checks verified password sign-in, a new Design intent visit appearing in the owner dashboard, period/lesson filters, and sign-out returning to the login screen. Counter stepping still produced 2 after two enabled edges. The dashboard survived a preview-server restart with its earlier records retained. `history-preview.jpg` records the local dashboard; local network locations are deliberately unavailable.
+- The October 2026 DB-IP City Lite MMDB matched its published uncompressed SHA-1 checksum. A local lookup of the public test address 8.8.8.8 returned US / California / Mountain View. This is a lookup check, not verification of any visitor's physical location. Location runs in a separate, short-lived process and no visitor IP is sent externally.
+- Added MIT dependency notices for pg/maxmind and their new installed dependencies, plus CC BY 4.0 attribution for DB-IP. The dependency inventory now covers 148 locked entries. The production audit still reports two moderate entries in the existing editor dependency chain, with no high/critical entries.
+- Private test credentials were generated outside the repository and their Windows directory ACL was restricted to the owner and SYSTEM. No database add-on or live collection is claimed by these local checks; production activation needs separate account-owner approval and deployed verification.
+
 ## Interpretation
 
 These checks establish the implemented examples and controls, not educational effectiveness, exhaustive SystemVerilog support, foundry timing, or chip signoff. The physical models do not run placement, CTS, routing, extraction, DRC, or LVS tools. The app labels these illustrations explicitly. No fabrication-ready layout is generated.

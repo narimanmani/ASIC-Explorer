@@ -244,6 +244,16 @@ The app includes a `Procfile`, a Node 22 runtime declaration, and a Heroku build
 
 See [docs/HEROKU.md](docs/HEROKU.md) for the deployment configuration, shared-demo limits, verification commands, and operating cost. The synthesis API checks accept an `ASIC_EXPLORER_URL` environment variable for checking a hosted instance.
 
+## Private visitor history
+
+The optional **`/history`** owner page records sampled lesson visits and approximate city/region/country behind a password sign-in. It includes time/lesson filters, anonymous visitor counts, and pagination. Raw IPs, GPS, and entered HDL are not stored. A public privacy notice explains the collection, and Global Privacy Control/Do Not Track requests are excluded.
+
+History is **disabled by default** and needs private credentials and persistent PostgreSQL on Heroku. Local SQLite is available for development; production does not fall back to temporary disk. See [docs/HISTORY.md](docs/HISTORY.md) for setup, security boundaries, 30-day retention, geolocation attribution, and the separately approved database cost.
+
+![Private owner dashboard in local review, with real locally recorded visits and time/lesson filters](docs/history-preview.jpg)
+
+This screenshot is a local review: location is unavailable for localhost, and forwarded visitor headers are deliberately ignored there. The hosted capture policy derives approximate locations from Heroku's router peer. It does not identify the person behind that network.
+
 ## License and contributions
 
 ASIC Explorer's original application code, documentation, screenshots, and teaching figures are available under the [MIT license](LICENSE), copyright 2026 Nariman Mani. Dependencies retain their own licenses; see [third-party notices](THIRD_PARTY_NOTICES.md), the [dependency inventory](docs/dependency-licenses.json), and the copied notices in `licenses/dependencies/`.

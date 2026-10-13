@@ -1,0 +1,66 @@
+import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
+import { historyConfig, issueToken, HISTORY_COOKIE } from '../lib/history-security.mjs';
+const url = process.env.ASIC_EXPLORER_URL || 'http://127.0.0.1:4177';
+const origin = new URL(url).origin;
+const configFile = process.env.HISTORY_TEST_CONFIG;
+const env = configFile ? JSON.parse(await readFile(configFile, 'utf8')) : process.env;
+const config = historyConfig(env);
+assert.ok(config, 'Provide test configuration without printing secrets.');
+const access = configFile ? await readFile(new URL('access.txt', `file:///${configFile.replaceAll('\\', '/')}`), 'utf8') : '';
+const password = access.match(/^Password: (.+)$/m)?.[1] || process.env.HISTORY_TEST_PASSWORD;
+assert.ok(password, 'Provide the private test password.');
+const headers = { origin, 'Content-Type': 'application/x-www-form-urlencoded' };
+const login = async (value, originValue = origin) => fetch(`${url}/history/login`, { method: 'POST', headers: { ...headers, origin: originValue }, body: new URLSearchParams({ password: value }), redirect: 'manual' });
+
+const publicPage = await fetch(`${url}/history`);
+assert.equal(publicPage.status, 200);
+assert.match(await publicPage.text(), /History password/);
+assert.match(publicPage.headers.get('cache-control'), /no-store/);
+assert.match(publicPage.headers.get('x-robots-tag'), /noindex/);
+assert.equal((await fetch(`${url}/history/data`)).status, 401);
+assert.equal((await fetch(`${url}/history/data`, { headers: { cookie: `${HISTORY_COOKIE}=forged` } })).status, 401);
+assert.equal((await login(password, 'https://untrusted.example')).status, 403);
+assert.equal((await login('incorrect-test-password')).status, 303);
+const session = await login(password);
+assert.equal(session.status, 303);
+const setCookie = session.headers.get('set-cookie');
+assert.match(setCookie, /HttpOnly/i); assert.match(setCookie, /SameSite=strict/i); assert.match(setCookie, /Path=\/history/i);
+if (origin.startsWith('https://')) assert.match(setCookie, /Secure/i);
+const cookie = setCookie.split(';')[0];
+const data = await fetch(`${url}/history/data`, { headers: { cookie } });
+assert.equal(data.status, 200);
+const initial = (await data.json()).summary.visits;
+let result = await fetch(`${url}/api/visits`, { method: 'POST', headers: { origin, 'Content-Type': 'application/json', 'user-agent': 'ASIC-history-functional-check', 'x-forwarded-for': '8.8.8.8' }, body: JSON.stringify({ lesson: 'rtl' }) });
+assert.equal(result.status, 204);
+const visitorCookie = result.headers.get('set-cookie')?.split(';')[0];
+assert.ok(visitorCookie);
+let updated;
+for (let n = 0; n < 25; n++) {
+  updated = await (await fetch(`${url}/history/data`, { headers: { cookie } })).json();
+  if (updated.summary.visits > initial) break;
+  await new Promise((resolve) => setTimeout(resolve, 100));
+}
+assert.ok(updated.summary.visits > initial, 'Visit must be recorded.');
+const row = updated.rows.find((r) => r.browser === 'Other' && r.lesson === 'rtl');
+assert.ok(row); assert.equal('ip' in row, false);
+if (!process.env.HISTORY_TEST_HOSTED) assert.equal(row.location_status, 'Unavailable', 'Local capture must ignore forged forwarded addresses.');
+result = await fetch(`${url}/api/visits`, { method: 'POST', headers: { origin, 'Content-Type': 'application/json', cookie: visitorCookie }, body: JSON.stringify({ lesson: 'rtl' }) });
+assert.equal(result.status, 204);
+await new Promise((resolve) => setTimeout(resolve, 150));
+const sampled = await (await fetch(`${url}/history/data`, { headers: { cookie } })).json();
+assert.equal(sampled.summary.visits, updated.summary.visits, 'Repeated visitor/lesson must be sampled.');
+for (const privacy of ['dnt', 'sec-gpc']) {
+  result = await fetch(`${url}/api/visits`, { method: 'POST', headers: { origin, 'Content-Type': 'application/json', [privacy]: '1' }, body: JSON.stringify({ lesson: 'timing' }) });
+  assert.equal(result.status, 204); assert.equal(result.headers.get('set-cookie'), null);
+}
+assert.equal((await fetch(`${url}/api/visits`, { method: 'POST', headers: { origin: 'https://untrusted.example', 'Content-Type': 'application/json' }, body: '{"lesson":"rtl"}' })).status, 403);
+const visitorToken = issueToken(config, 'visitor');
+assert.equal((await fetch(`${url}/history/data`, { headers: { cookie: `${HISTORY_COOKIE}=${visitorToken}` } })).status, 401);
+const expiredToken = issueToken(config, 'admin', Date.now() - 5 * 3600000);
+assert.equal((await fetch(`${url}/history/data`, { headers: { cookie: `${HISTORY_COOKIE}=${expiredToken}` } })).status, 401);
+const filtered = await (await fetch(`${url}/history/data?lesson=rtl&days=1`, { headers: { cookie } })).json();
+assert.ok(filtered.rows.every((r) => r.lesson === 'rtl'));
+const logout = await fetch(`${url}/history/logout`, { method: 'POST', headers: { origin, cookie }, redirect: 'manual' });
+assert.equal(logout.status, 303); assert.match(logout.headers.get('set-cookie'), /Max-Age=0/i);
+console.log('History checks passed: private reads, sign-in, CSRF, cookie flags, real capture, sampling, opt-out, filters, token purpose/expiry, and sign-out.');

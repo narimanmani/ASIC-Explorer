@@ -13,6 +13,14 @@ The shared budget does not collect visitor IP addresses or persist HDL. Prepared
 - `npm audit --omit=dev` reported **two moderate package entries**, `dompurify` and its dependent `monaco-editor`, with no high or critical entries. Both entries concern the same transitive sanitizer dependency in the pinned editor. The publication retains the tested Monaco 0.55.1 dependency; this audit finding is not claimed to be fixed or proven exploitable through this application's HDL interface.
 - This is a basic publication check, not an exhaustive repository security assessment. Audit results can change as advisories and packages change. Run `npm audit` against your installation and review the affected paths before deploying or upgrading.
 
+## Private visitor history
+
+Optional collection is disabled by default. `/history` and `/history/data` require a signed owner session before reading records. Passwords use salted scrypt hashes; session cookies are HttpOnly, path-scoped, SameSite Strict, Secure on HTTPS, and expire in four hours. Exact-origin checks protect login/logout and capture. Sign-in attempts have bounded process-local budgets. Private/no-store, no-referrer, noindex, and frame-denial headers protect history responses.
+
+The history table retains sampled lesson/time, anonymous cookie-derived identifiers, broad browser labels, and approximate city/region/country. IPs are only used transiently for a local DB-IP lookup. Raw IPs, GPS, HDL, referrers, full URLs, and raw headers are excluded. GPC/DNT requests are excluded. Retention is 30 days on subsequent reads/writes, with at most 20,000 records. Heroku uses persistent PostgreSQL; local SQLite is explicitly development-only. Geolocation and database failures leave the lecture usable.
+
+See [docs/HISTORY.md](docs/HISTORY.md) for limits, cookie semantics, proxy assumptions, credential rotation, DB-IP attribution, and Heroku's provider-specific encrypted database connection. These checks do not establish exhaustive authentication/abuse resistance or identified attendance.
+
 ## Reporting
 
 Please report suspected vulnerabilities privately through the maintainer's contact options on [Nariman Mani's GitHub profile](https://github.com/narimanmani). Do not include credentials, private chip designs, or student information in public issues. Include the affected version, steps to reproduce, and a minimal example. Ordinary teaching-interface bugs can be filed as public issues.
