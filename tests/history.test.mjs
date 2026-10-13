@@ -32,8 +32,8 @@ test('origin and Heroku proxy boundary reject forged locations and raw-IP identi
   assert.equal(proxyAddress(new Headers({ 'x-forwarded-for': '8.8.8.8, invalid' }), true), null);
   assert.equal(proxyAddress(new Headers({ 'x-forwarded-for': '8.8.8.8' }), false), null);
   assert.equal(proxyAddress(new Headers({ 'x-forwarded-for': '::ffff:8.8.8.8' }), true), '8.8.8.8');
-  for (const ip of ['127.0.0.1', '10.1.2.3', '192.168.1.1', '100.64.0.1', '::1', 'fc00::1', '2001:db8::1']) assert.equal(publicAddress(ip), false);
-  for (const ip of ['8.8.8.8', '1.1.1.1', '2606:4700:4700::1111']) assert.equal(publicAddress(ip), true);
+  for (const ip of ['127.0.0.1', '10.1.2.3', '192.168.1.1', '100.64.0.1', '192.0.2.1', '198.51.100.1', '203.0.113.1', '::1', 'fc00::1', '2001:db8::1']) assert.equal(publicAddress(ip), false);
+  for (const ip of ['8.8.8.8', '1.1.1.1', '192.0.3.1', '198.51.101.1', '203.0.114.1', '2606:4700:4700::1111']) assert.equal(publicAddress(ip), true);
   assert.match(visitorId(issueToken(config, 'visitor'), config), /^[a-f0-9]{24}$/);
   assert.equal(browserLabel('Mozilla Chrome/120.0 Edg/120.0'), 'Edge');
   assert.equal(browserLabel('Googlebot'), 'Automated');
