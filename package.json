@@ -9,14 +9,15 @@
     "url": "https://github.com/narimanmani/ASIC-Explorer.git"
   },
   "engines": {
-    "node": ">=22.19.0"
+    "node": "22.x"
   },
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "next dev --webpack -H 127.0.0.1 -p 4175",
     "build": "next build --webpack",
-    "start": "next start -H 127.0.0.1 -p 4175",
+    "start": "node scripts/start-server.mjs",
+    "heroku-postbuild": "npm run prepare && npm run build",
     "prepare": "node scripts/prepare-assets.mjs",
     "examples": "node --experimental-strip-types scripts/build-examples.mjs",
     "typecheck": "tsc --noEmit",

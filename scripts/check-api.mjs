@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-const base = 'http://127.0.0.1:4175';
+const base = (process.env.ASIC_EXPLORER_URL || 'http://127.0.0.1:4175').replace(/\/$/, '');
 const example = JSON.parse(await readFile(new URL('../public/examples/counter.json', import.meta.url), 'utf8'));
 const send = (body) => fetch(`${base}/api/synthesize`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: typeof body === 'string' ? body : JSON.stringify(body) });
 let response = await send({ source: example.source.replace("count + 4'd1", "count + 4'd3"), top: 'event_counter' });

@@ -10,7 +10,7 @@ Developed by **Nariman Mani** for a teaching lecture and released so other educa
 
 ## Start the app
 
-Requires **Node.js 22.19 or later**, npm, and a desktop browser. From a terminal:
+Requires **Node.js 22 LTS (22.19 or later in the 22.x line)**, npm, and a desktop browser. From a terminal:
 
 ```sh
 git clone https://github.com/narimanmani/ASIC-Explorer.git
@@ -201,7 +201,7 @@ The physical lessons are **conceptual teaching models**, independent of the edit
 
 Source highlighting uses compiler-provided positions and can associate one statement with several components. The compact word-level counter arrangement changes only visual positions; all components, connectivity, state, and signal values still come from the synthesized circuit.
 
-The app binds to loopback for local teaching. The synthesis endpoint validates module names, limits request/output size, permits two concurrent jobs, and terminates jobs after 30 seconds. It starts a Node child process without a shell and runs Yosys against a virtual filesystem. A public hosted service would need its own deployment and resource-management review.
+The app binds to loopback for local teaching. The synthesis endpoint validates module names, reads at most 24,000 request bytes with a five-second body deadline, and bounds output size. Local use permits two concurrent jobs with a 30-second synthesis deadline. On Heroku, the shared demo permits one job at a time, six compilation starts per minute per server process, and a 20-second synthesis deadline. It starts a Node child process without a shell and runs Yosys against a virtual filesystem. These limits manage a small teaching demo; they do not establish isolation or capacity for an unrestricted multi-user EDA service.
 
 ## Verification and maintenance
 
@@ -229,6 +229,12 @@ Key source files: `components/explorer.tsx` coordinates lessons; `lib/compile.mj
 - The tutorial's primary references include OpenROAD, OpenSTA, KLayout, and SKY130. The gate drawing and conceptual teaching interactions in this app are original implementation work.
 
 This is a teaching artifact. Its implementation and tests establish the behaviors described above; they do not constitute evidence of improved educational outcomes or fabrication readiness.
+
+## Heroku deployment
+
+The app includes a `Procfile`, a Node 22 runtime declaration, and a Heroku build hook. Heroku startup uses the assigned `PORT` on `0.0.0.0`; local `npm start` remains at `127.0.0.1:4175`. The build prepares the local editor assets before compiling Next.js. No database or external synthesis service is required.
+
+See [docs/HEROKU.md](docs/HEROKU.md) for the deployment configuration, shared-demo limits, verification commands, and operating cost. The synthesis API checks accept an `ASIC_EXPLORER_URL` environment variable for checking a hosted instance.
 
 ## License and contributions
 

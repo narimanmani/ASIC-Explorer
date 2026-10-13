@@ -74,6 +74,14 @@ The Design intent page previously displayed four static zeros and asked a questi
 - `npm audit --omit=dev` reported two moderate package entries involving DOMPurify and the pinned Monaco editor, with no high or critical entries. This finding is documented in SECURITY.md; it is not claimed to be fixed or to establish an application exploit.
 - No HDL simulation, teaching-model arithmetic, or application interaction code was changed for publication. This record does not claim comprehensive security validation, browser coverage, or equivalence to a commercial ASIC suite.
 
+## Heroku deployment preparation — October 12, 2026
+
+- The Node launcher preserves local loopback/port 4175 and supports Heroku's assigned port and host binding. The Procfile, Node 22.x declaration, and editor-asset/production build hook are committed with the application.
+- Production build and TypeScript validation passed. All 12 tests passed, including three new checks for streamed-byte limits, incomplete-body timeout, and synthesis-budget recovery.
+- The API checks passed against both the local production mode and a loopback-only instance with Heroku-mode limits enabled. Additional HTTP checks confirmed one active compilation, a six-start shared minute budget, Retry-After on 429 responses, and prepared examples still available while compilation was rate limited.
+- The Heroku app record `asic-explorer-narimanmani` was created on heroku-24 in the US region with the official Node.js buildpack. This preparation record does not claim a live deployment or authorization of a paid running formation.
+- A small shared demo uses one compilation worker, a 20-second compilation deadline, a 24,000-byte streamed request cap, a five-second body deadline, and bounded output. These measures do not establish complete abuse prevention or isolation for an unrestricted multi-user EDA service. Known editor dependency-audit findings remain documented in SECURITY.md.
+
 ## Interpretation
 
 These checks establish the implemented examples and controls, not educational effectiveness, exhaustive SystemVerilog support, foundry timing, or chip signoff. The physical models do not run placement, CTS, routing, extraction, DRC, or LVS tools. The app labels these illustrations explicitly. No fabrication-ready layout is generated.
